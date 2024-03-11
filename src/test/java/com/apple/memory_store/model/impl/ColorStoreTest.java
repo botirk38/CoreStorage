@@ -48,9 +48,21 @@ public class ColorStoreTest {
     }
 
     @Test
-
     public void testGet() {
+        String range = "00-06";
+        Color expectedColor = Color.RED;
 
+        store.store(range, expectedColor);
+
+        assertEquals(expectedColor, store.get(range));
+
+    }
+
+    @Test
+    public void testGetWithNoValue() {
+        String range = "00-06";
+
+        assertThrows(NullPointerException.class, () -> store.get(range));
     }
 
 }
