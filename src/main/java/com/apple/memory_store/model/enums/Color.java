@@ -1,7 +1,11 @@
 package com.apple.memory_store.model.enums;
+/**
+ * Enum representing colors with associated values.
+ * 
+ * @author Botir Khaltaev
+ */
 
-
-public enum Color {
+ public enum Color {
 
     YELLOW(1),
     RED(2),
@@ -9,14 +13,23 @@ public enum Color {
     BLUE(4),
     GREY(5);
 
+    private int priority;
 
-    private int value;
-
-    Color(int value) {
-        this.value = value;
+    /**
+     * Constructor for the Color enum.
+     *
+     * @param priority the value associated with the color
+     */
+    Color(int priority) {
+        this.priority = priority;
     }
 
-    public int getValue() {
-        return value;
+    /**
+     * Gets the value associated with the color.
+     *
+     * @return the value of the color
+     */
+    public int getPriority() {
+        return priority;
     }
 }

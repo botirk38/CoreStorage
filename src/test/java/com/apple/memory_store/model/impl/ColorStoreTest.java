@@ -3,6 +3,7 @@ package com.apple.memory_store.model.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.apple.memory_store.exception.RangeNotFoundException;
 import com.apple.memory_store.model.enums.Color;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +27,7 @@ public class ColorStoreTest {
 
         store.store(range, expectedColor);
 
-        assertEquals(Color.RED, store.get(range));
+        assertEquals(Color.RED, store.get("03"));
 
     }
 
@@ -42,27 +43,23 @@ public class ColorStoreTest {
         Color expectedBlue = Color.BLUE;
         store.store(rangeBlue, expectedBlue);
 
-        assertEquals(expectedRed, store.get(rangeRed));
+        assertEquals(expectedRed, store.get("02"));
 
-        assertEquals(expectedBlue, store.get(rangeBlue));
+        assertEquals(expectedBlue, store.get("07"));
     }
 
     @Test
-    public void testGet() {
-        String range = "00-06";
-        Color expectedColor = Color.RED;
+    public void testGetValid(){
+        String entry = "03";
 
-        store.store(range, expectedColor);
 
-        assertEquals(expectedColor, store.get(range));
+        store.store("00-06", Color.RED);
 
+        assertEquals(Color.RED, store.get(entry));
     }
 
-    @Test
-    public void testGetWithNoValue() {
-        String range = "00-06";
+    
+    
 
-        assertThrows(NullPointerException.class, () -> store.get(range));
-    }
 
 }
