@@ -1,14 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Project Information -->
-    <groupId>com.yourcompany</groupId>
-    <artifactId>your-project</artifactId>
+    <groupId>com.apple</groupId>
+    <artifactId>memory_store</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Your Project Name</name>
-    <description>Your project description</description>
+    <name>CoreStorage</name>
+    <description>
+        CoreStorage is a high-performance, in-memory data storage solution, designed to provide Java applications with a fast, reliable, and easy-to-use mechanism formanaging transient data.
+    </description>
 
     <!-- Java Version -->
     <properties>
@@ -16,21 +18,37 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+
+    <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>5.10.2</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+    
     <!-- Dependencies -->
     <dependencies>
-        <!-- Example Dependency: JUnit for unit testing -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
+       <dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
     </dependencies>
 
     <!-- Build Configuration -->
     <build>
         <plugins>
-            <!-- Example Plugin: Maven Compiler Plugin -->
+
+        <plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.2.5</version>
+			</plugin>
+
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>

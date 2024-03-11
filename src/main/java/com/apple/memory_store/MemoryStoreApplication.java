@@ -1,4 +1,7 @@
+package com.apple.memory_store;
 
-public static void main(String[] args) {
-	
+public class MemoryStoreApplication {
+    public static void main(String[] args) {
+        
+    }
 }
