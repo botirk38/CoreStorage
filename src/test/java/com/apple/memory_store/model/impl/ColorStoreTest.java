@@ -58,6 +58,32 @@ public class ColorStoreTest {
     }
 
     @Test
+    public void testStoreInvalidRange(){
+
+        assertThrows(InvalidRangeException.class, () -> store.store("06-00", Color.RED));
+    }
+
+    @Test
+    public void testOverlappingRanges(){
+        store.store("00-06", Color.RED);
+
+        store.store("05-10", Color.YELLOW);
+
+        assertEquals(Color.YELLOW, store.get("03"));
+
+    }
+    
+    @Test
+    public void testOverlappingRanges2(){
+        store.store("00-11", Color.RED);
+
+        store.store("05-10", Color.YELLOW);
+
+        assertEquals(Color.RED, store.get("11"));
+
+    }
+
+    @Test
     public void testGetValid(){
         String entry = "03";
 
@@ -66,6 +92,15 @@ public class ColorStoreTest {
 
         assertEquals(Color.RED, store.get(entry));
     }
+
+    @Test
+    public void testGetInvalid(){
+        String entry = "03";
+
+        assertEquals(Color.GREY, store.get(entry));
+    }
+
+    
 
     
     

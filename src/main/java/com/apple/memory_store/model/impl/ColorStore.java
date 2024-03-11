@@ -2,7 +2,6 @@ package com.apple.memory_store.model.impl;
 
 import com.apple.memory_store.model.interfaces.MemoryStore;
 import com.apple.memory_store.exception.InvalidRangeException;
-import com.apple.memory_store.exception.RangeNotFoundException;
 import com.apple.memory_store.model.enums.Color;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +17,11 @@ public class ColorStore implements MemoryStore<String, Color> {
 
 	@Override
 	public void store(String range, Color color) {
-		parseAndValidateRange(range);
-		store.put(range, color);
+		int[] bounds = parseAndValidateRange(range);
+
+		String key = determineKeyForColor(bounds, range);
+
+		store.put(key, color);
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class ColorStore implements MemoryStore<String, Color> {
 			return color;
 		}
 
-		throw new RangeNotFoundException(entry + " not found in store");
+		return Color.GREY;
 	}
 
 	private Color getColorInRange(int entryValue) {
@@ -53,6 +55,21 @@ public class ColorStore implements MemoryStore<String, Color> {
 			throw new InvalidRangeException("Invalid range: " + range);
 		}
 		return new int[] { lowerBound, upperBound };
+	}
+
+	private String determineKeyForColor(int[] bounds, String range) {
+		String key = range;
+		for (Map.Entry<String, Color> entry : store.entrySet()) {
+			int[] existingBounds = parseAndValidateRange(entry.getKey());
+			if (bounds[0] <= existingBounds[1] && bounds[1] >= existingBounds[0]) {
+				if (bounds[0] >= existingBounds[0] && bounds[1] <= existingBounds[1]) {
+					return key;
+				}
+				key = entry.getKey();
+				break;
+			}
+		}
+		return key;
 	}
 
 }
