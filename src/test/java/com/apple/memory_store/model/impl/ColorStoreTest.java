@@ -3,6 +3,7 @@ package com.apple.memory_store.model.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.apple.memory_store.exception.InvalidRangeException;
 import com.apple.memory_store.exception.RangeNotFoundException;
 import com.apple.memory_store.model.enums.Color;
 
@@ -46,6 +47,14 @@ public class ColorStoreTest {
         assertEquals(expectedRed, store.get("02"));
 
         assertEquals(expectedBlue, store.get("07"));
+    }
+
+    @Test
+    public void testStoreWithInvalidRange() {
+        String range = "06-00";
+        Color expectedColor = Color.RED;
+
+        assertThrows(InvalidRangeException.class, () -> store.store(range, expectedColor));
     }
 
     @Test
