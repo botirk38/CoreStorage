@@ -1,4 +1,4 @@
-
+package com.apple.memory_store.model.interfaces;
 
 public interface MemoryStore <K,V> {
 	
