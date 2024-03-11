@@ -1,51 +1,56 @@
 package com.apple.memory_store.model.impl;
 
-import com.apple.memory_store.model.enums.Color;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.apple.memory_store.model.enums.Color;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ColorStoreTest {
 
-	ColorStore store;
+    ColorStore store;
 
+    @BeforeEach
+    public void setup() {
 
-	@BeforeEach
-	public void setup() {
+        store = new ColorStore();
+    }
 
-		store = new ColorStore();
-	}
+    @Test
+    public void testStore() {
 
-	
-	@Test
-	public void testStore() {
+        String range = "00-06";
+        Color expectedColor = Color.RED;
 
-		String range = "00-06";
-		Color expectedColor = Color.RED;
+        store.store(range, expectedColor);
 
-		store.store(range, expectedColor);
+        assertEquals(Color.RED, store.get(range));
 
-		assertEquals(Color.RED, store.get(range));
+    }
 
-	}
+    @Test
+    public void testStoreAndRetrieveDifferentColors() {
+        ColorStore store = new ColorStore();
 
-	@Test
+        String rangeRed = "00-06";
+        Color expectedRed = Color.RED;
+        store.store(rangeRed, expectedRed);
 
-	public void testGet() {
-		
-		
+        String rangeBlue = "07-12";
+        Color expectedBlue = Color.BLUE;
+        store.store(rangeBlue, expectedBlue);
 
-	}
+        assertEquals(expectedRed, store.get(rangeRed));
 
+        assertEquals(expectedBlue, store.get(rangeBlue));
+    }
 
+    @Test
 
+    public void testGet() {
 
-
-
-
+    }
 
 }

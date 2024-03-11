@@ -18,12 +18,14 @@ public class ColorStore implements MemoryStore<String,Color> {
 
 
 	@Override
-	public void store(String range, Color color) {} 
+	public void store(String range, Color color) {
+		store.put(range, color);
+	} 
 
 
 	@Override
 	public Color get(String range) {
-		return Color.RED;
+		return store.get(range);
 	} 
 
 
