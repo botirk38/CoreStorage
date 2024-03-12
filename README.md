@@ -45,12 +45,3 @@ CoreStorage supports the following commands:
 - **help**: Displays a help message with details on available commands.
 - **exit**: Exits the application.
 
-## Contributing
-
-While CoreStorage is currently designed for specific internal use cases, we welcome feedback and suggestions from all users. If you have ideas for improvements or have identified issues, please reach out through our internal communication channels.
-
-## Support
-
-For assistance with CoreStorage, please consult the help command within the application or contact our internal support team.
-
-
