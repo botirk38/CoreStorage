@@ -92,6 +92,7 @@ public class ColorStoreTest {
         store.store("05-10", Color.YELLOW);
 
         assertEquals(Color.RED, store.get("11"));
+        assertEquals(Color.YELLOW, store.get("10"));
 
     }
 
