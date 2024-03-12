@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.apple.memory_store.exception.InvalidRangeException;
-import com.apple.memory_store.exception.RangeNotFoundException;
 import com.apple.memory_store.model.enums.Color;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,13 +57,26 @@ public class ColorStoreTest {
     }
 
     @Test
-    public void testStoreInvalidRange(){
+    public void testStoreInvalidRange() {
 
         assertThrows(InvalidRangeException.class, () -> store.store("06-00", Color.RED));
     }
 
     @Test
-    public void testOverlappingRanges(){
+    public void testStoreOneColorMultipleRanges() {
+        String range1 = "00-06";
+        Color expectedColor = Color.RED;
+        store.store(range1, expectedColor);
+
+        String range2 = "07-12";
+        store.store(range2, expectedColor);
+
+        assertEquals(Color.RED, store.get("03"));
+        assertEquals(Color.RED, store.get("10"));
+    }
+
+    @Test
+    public void testOverlappingRanges() {
         store.store("00-06", Color.RED);
 
         store.store("05-10", Color.YELLOW);
@@ -72,9 +84,9 @@ public class ColorStoreTest {
         assertEquals(Color.YELLOW, store.get("03"));
 
     }
-    
+
     @Test
-    public void testOverlappingRanges2(){
+    public void testOverlappingRanges2() {
         store.store("00-11", Color.RED);
 
         store.store("05-10", Color.YELLOW);
@@ -84,9 +96,8 @@ public class ColorStoreTest {
     }
 
     @Test
-    public void testGetValid(){
+    public void testGetValid() {
         String entry = "03";
-
 
         store.store("00-06", Color.RED);
 
@@ -94,16 +105,10 @@ public class ColorStoreTest {
     }
 
     @Test
-    public void testGetInvalid(){
+    public void testGetRangeNotStored() {
         String entry = "03";
 
         assertEquals(Color.GREY, store.get(entry));
     }
-
-    
-
-    
-    
-
 
 }

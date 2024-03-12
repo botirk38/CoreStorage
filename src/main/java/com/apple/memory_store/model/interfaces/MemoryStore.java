@@ -7,6 +7,8 @@ package com.apple.memory_store.model.interfaces;
  *
  * @param <K> the type of keys maintained by this memory store
  * @param <V> the type of mapped values
+ * 
+ * @author Botir Khaltaev
  */
 public interface MemoryStore<K, V> {
 
