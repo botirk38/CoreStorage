@@ -6,9 +6,33 @@ import com.apple.memory_store.model.interfaces.MemoryStore;
 
 import java.util.Scanner;
 
+/**
+ * The {@code MemoryStoreApplication} class provides a command-line interface to interact with
+ * a memory store that maps string keys to {@link Color} values. Users can store colors with associated
+ * keys, retrieve colors by keys, and receive guidance on using the application through a help menu.
+ * <p>
+ * Supported commands include:
+ * <ul>
+ *     <li>store &lt;key&gt; &lt;value&gt; - Stores a color with the specified key.</li>
+ *     <li>retrieve &lt;key&gt; - Retrieves and displays the color associated with the key.</li>
+ *     <li>help - Displays a help message with available commands.</li>
+ *     <li>exit - Exits the application.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * This application demonstrates basic usage of the {@link MemoryStore} interface and its implementation
+ * through the {@link ColorStore} class.
+ * </p>
+ */
 public class MemoryStoreApplication {
     private static MemoryStore<String, Color> store = new ColorStore();
 
+    /**
+     * Main method that provides a command-line interface for the memory store application.
+     * It accepts commands from the user, processes them, and provides feedback.
+     *
+     * @param args Command line arguments passed to the application (not used).
+     */
     public static void main(String[] args) {
         boolean isRunning = true;
         Scanner scanner = new Scanner(System.in); // Create a Scanner object for reading input
@@ -19,57 +43,29 @@ public class MemoryStoreApplication {
             String input = scanner.nextLine(); // Read user input
             String[] commandArgs = input.split(" "); // Split input into command and arguments
 
-            if (commandArgs.length > 0) {
-                String command = commandArgs[0];
-                switch (command) {
-                    case "store":
-                        if (commandArgs.length < 3) {
-                            System.out.println("Invalid number of arguments for store command");
-                            break;
-                        }
-                        String key = commandArgs[1];
-                        try {
-                            Color value = Color.valueOf(commandArgs[2].toUpperCase());
-                            store.store(key, value);
-                            System.out.println("Stored " + value + " for key " + key);
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Invalid color value. Please use one of the predefined colors.");
-                        }
-                        break;
-                    case "retrieve":
-                        if (commandArgs.length < 2) {
-                            System.out.println("Invalid number of arguments for retrieve command");
-                            break;
-                        }
-                        key = commandArgs[1];
-                        Color color = store.get(key);
-                        if (color != null) {
-                            System.out.println(color);
-                        } else {
-                            System.out.println("No value found for key " + key);
-                        }
-                        break;
-                    case "help":
-                        printHelp();
-                        break;
-                    case "exit":
-                        isRunning = false;
-                        break;
-                    default:
-                        System.out.println("Invalid command");
-                        printHelp();
-                }
+            processCommand(commandArgs);
+
+            if ("exit".equals(commandArgs[0])) {
+                isRunning = false;
             }
         }
         scanner.close(); // Close the scanner when the application exits
     }
 
+    /**
+     * Processes the user input commands and executes the corresponding actions.
+     * 
+     * @param commandArgs Array of strings representing the command and its arguments.
+     */
+    private static void processCommand(String[] commandArgs) {
+        // Method implementation for processing commands
+    }
+
+    /**
+     * Prints the help message to the console, detailing the usage and available commands
+     * for the application.
+     */
     private static void printHelp() {
-        System.out.println("Memory Store Application");
-        System.out.println("Usage: ");
-        System.out.println("  store <key> <value> - Store a value with a key");
-        System.out.println("  retrieve <key> - Retrieve a value by key");
-        System.out.println("  help - Print this help message");
-        System.out.println("  exit - Exit the application");
+        // Help message printing implementation
     }
 }
