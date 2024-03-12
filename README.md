@@ -40,8 +40,8 @@ Upon launch, the application will present you with the command prompt, where you
 
 CoreStorage supports the following commands:
 
-- **store `<key>` `<value>`**: Stores the specified color value under the given key. Example: `store key01 RED`
-- **retrieve `<key>`**: Retrieves and displays the color associated with the specified key. If no color is found, `GREY` is returned by default. Example: `retrieve key01`
+- **store `<key>` `<value>`**: Stores the specified color value under the given key. Example: `store 00-03 red`
+- **retrieve `<key>`**: Retrieves and displays the color associated with the specified key. If no color is found, `GREY` is returned by default. Example: `retrieve 05`
 - **help**: Displays a help message with details on available commands.
 - **exit**: Exits the application.
 
