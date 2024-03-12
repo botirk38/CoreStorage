@@ -25,9 +25,9 @@ package com.apple.memory_store.model.enums;
     }
 
     /**
-     * Gets the value associated with the color.
+     * Gets the priority associated with the color.
      *
-     * @return the value of the color
+     * @return the priority of the color
      */
     public int getPriority() {
         return priority;

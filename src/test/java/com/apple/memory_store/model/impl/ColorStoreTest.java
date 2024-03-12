@@ -77,11 +77,12 @@ public class ColorStoreTest {
 
     @Test
     public void testOverlappingRanges() {
-        store.store("00-06", Color.RED);
+        store.store("00-13", Color.RED);
 
-        store.store("05-10", Color.YELLOW);
+        store.store("00-10", Color.YELLOW);
 
-        assertEquals(Color.YELLOW, store.get("03"));
+        assertEquals(Color.YELLOW, store.get("05"));
+        assertEquals(Color.RED, store.get("11"));
 
     }
 

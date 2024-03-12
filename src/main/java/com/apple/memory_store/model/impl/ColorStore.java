@@ -45,11 +45,7 @@ public class ColorStore implements MemoryStore<String, Color> {
 
 	@Override
 	public void store(String range, Color color) {
-		int[] bounds = parseAndValidateRange(range);
-
-		String key = determineKeyForColor(bounds, range);
-
-		store.put(key, color);
+		store.put(range, color);
 	}
 
 	/**
@@ -95,7 +91,7 @@ public class ColorStore implements MemoryStore<String, Color> {
 			int upperBound = bounds[1];
 			if (entryValue >= lowerBound && entryValue <= upperBound) {
 				Color currentColor = rangeColorEntry.getValue();
-				if (highestPriorityColor == null || currentColor.ordinal() < highestPriorityColor.ordinal()) {
+				if (highestPriorityColor == null || currentColor.getPriority() < highestPriorityColor.getPriority()) {
 					highestPriorityColor = currentColor;
 				}
 			}
@@ -123,32 +119,6 @@ public class ColorStore implements MemoryStore<String, Color> {
 			throw new InvalidRangeException("Invalid range: Please put a valid range ex. 03-06 " + range);
 		}
 		return new int[] { lowerBound, upperBound };
-	}
-
-	/**
-	 * Determines the key for storing a color based on the provided bounds and
-	 * range.
-	 * This method ensures that colors are stored without overlapping ranges.
-	 *
-	 * @param bounds an array of two integers representing the lower and upper
-	 *               bounds of the range
-	 * @param range  the range string to use as the key if no overlaps are found
-	 * @return the key under which the color should be stored
-	 */
-
-	private String determineKeyForColor(int[] bounds, String range) {
-		String key = range;
-		for (Map.Entry<String, Color> entry : store.entrySet()) {
-			int[] existingBounds = parseAndValidateRange(entry.getKey());
-			if (bounds[0] <= existingBounds[1] && bounds[1] >= existingBounds[0]) {
-				if (bounds[0] >= existingBounds[0] && bounds[1] <= existingBounds[1]) {
-					return key;
-				}
-				key = entry.getKey();
-				break;
-			}
-		}
-		return key;
 	}
 
 }
