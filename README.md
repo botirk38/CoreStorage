@@ -28,10 +28,10 @@ CoreStorage does not require a traditional installation. Simply download the lat
 
 ### Running CoreStorage
 
-Navigate to the directory containing CoreStorage and execute the following command to start the application:
+Navigate to the directory containing MemoryStoreApplication and execute the following command to start the application:
 
 ```shell
-java -jar CoreStorage.jar
+java -jar MemoryStoreApplication.jar
 ```
 
 Upon launch, the application will present you with the command prompt, where you can begin inputting commands.
