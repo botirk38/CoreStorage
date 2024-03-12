@@ -8,6 +8,7 @@ import com.apple.memory_store.model.enums.Color;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ColorStoreTest {
 
@@ -111,6 +112,78 @@ public class ColorStoreTest {
         String entry = "03";
 
         assertEquals(Color.GREY, store.get(entry));
+    }
+
+    @Test
+    public void testPriorityWithOverlappingRanges() {
+        store.store("00-10", Color.BLUE); // Lower priority
+        store.store("05-15", Color.YELLOW); // Higher priority
+
+        assertEquals(Color.YELLOW, store.get("07"),
+                "YELLOW should be returned as it has higher priority in the overlapping range.");
+        assertEquals(Color.BLUE, store.get("02"), "BLUE should be returned as it is outside the overlapping range.");
+    }
+
+    @Test
+    public void testEdgeCaseRangeOverlap() {
+        store.store("00-05", Color.RED);
+        store.store("05-10", Color.YELLOW);
+
+        assertEquals(Color.YELLOW, store.get("05"), "YELLOW should be returned for the edge case overlap.");
+    }
+
+    @Test
+    public void testCompletelyEncompassingRange() {
+        store.store("00-10", Color.GREEN);
+        store.store("03-07", Color.RED); // Completely inside the GREEN range
+
+        assertEquals(Color.RED, store.get("05"),
+                "RED should be returned as it is the highest priority in the encompassed range.");
+        assertEquals(Color.GREEN, store.get("00"), "GREEN should be returned outside of the RED range.");
+    }
+
+    @Test
+    public void testSequentialRangesWithoutOverlap() {
+        store.store("00-05", Color.RED);
+        store.store("06-10", Color.YELLOW);
+
+        assertEquals(Color.RED, store.get("05"), "RED should be returned as it is exactly at the end of its range.");
+        assertEquals(Color.YELLOW, store.get("06"), "YELLOW should be returned as it begins immediately after RED.");
+    }
+
+    @Test
+    public void testInvalidRangeInput() {
+        assertThrows(InvalidRangeException.class, () -> store.store("invalid-range", Color.GREEN),
+                "Exception should be thrown for invalid range format.");
+    }
+
+    @Test
+    public void testNonNumericInputForGet() {
+        store.store("00-05", Color.BLUE);
+        Exception exception = assertThrows(NumberFormatException.class, () -> store.get("abc"),
+                "Expect NumberFormatException for non-numeric input.");
+        assertTrue(exception instanceof NumberFormatException,
+                "NumberFormatException should be thrown for non-numeric input.");
+    }
+
+    @Test
+    public void testInvalidRangeFormatOnStore() {
+        assertThrows(InvalidRangeException.class, () -> store.store("05", Color.RED),
+                "InvalidRangeException should be thrown for missing hyphen in range.");
+    }
+
+    @Test
+    public void testOverlappingRangesWithSameColor() {
+        store.store("00-10", Color.BLUE);
+        store.store("05-15", Color.BLUE);
+
+        assertEquals(Color.BLUE, store.get("05"),
+                "BLUE should be returned for overlapping ranges with the same color.");
+    }
+
+    @Test
+    public void testNoStoredRanges() {
+        assertEquals(Color.GREY, store.get("00"), "GREY should be returned when no ranges are stored.");
     }
 
 }

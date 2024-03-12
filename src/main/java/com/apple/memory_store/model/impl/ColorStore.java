@@ -45,6 +45,7 @@ public class ColorStore implements MemoryStore<String, Color> {
 
 	@Override
 	public void store(String range, Color color) {
+		parseAndValidateRange(range);
 		store.put(range, color);
 	}
 
@@ -83,7 +84,7 @@ public class ColorStore implements MemoryStore<String, Color> {
 	 *         the entry does not fall within any stored ranges
 	 */
 
-	 private Color getColorInRange(int entryValue) {
+	private Color getColorInRange(int entryValue) {
 		Color highestPriorityColor = null;
 		for (Map.Entry<String, Color> rangeColorEntry : store.entrySet()) {
 			int[] bounds = parseAndValidateRange(rangeColorEntry.getKey());
@@ -98,7 +99,6 @@ public class ColorStore implements MemoryStore<String, Color> {
 		}
 		return highestPriorityColor;
 	}
-	
 
 	/**
 	 * Parses and validates a range string, returning the numeric bounds of the
@@ -111,7 +111,12 @@ public class ColorStore implements MemoryStore<String, Color> {
 	 * @throws InvalidRangeException if the range is invalid
 	 */
 
-	private int[] parseAndValidateRange(String range) {
+	private static int[] parseAndValidateRange(String range) {
+
+		if (!range.matches("\\d+-\\d+")) {
+			throw new InvalidRangeException("Invalid range: Please put a valid range ex. 03-06 " + range);
+		}
+
 		String[] bounds = range.split("-");
 		int lowerBound = Integer.parseInt(bounds[0]);
 		int upperBound = Integer.parseInt(bounds[1]);
