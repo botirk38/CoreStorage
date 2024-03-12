@@ -58,7 +58,32 @@ public class MemoryStoreApplication {
      * @param commandArgs Array of strings representing the command and its arguments.
      */
     private static void processCommand(String[] commandArgs) {
-        // Method implementation for processing commands
+        switch (commandArgs[0]) {
+            case "store":
+                if (commandArgs.length == 3) {
+                    store.store(commandArgs[1], Color.valueOf(commandArgs[2].toUpperCase()));
+                    System.out.println("Stored color " + commandArgs[2].toUpperCase() + " with key " + commandArgs[1]);
+                } else {
+                    System.out.println("Invalid command. Usage: store <key> <value>");
+                }
+                break;
+            case "retrieve":
+                if (commandArgs.length == 2) {
+                    Color color = store.get(commandArgs[1]);
+                    System.out.println("Retrieved color: " + (color != null ? color : "GREY"));
+                } else {
+                    System.out.println("Invalid command. Usage: retrieve <key>");
+                }
+                break;
+            case "help":
+                printHelp();
+                break;
+            case "exit":
+                System.out.println("Exiting application...");
+                break;
+            default:
+                System.out.println("Invalid command. Type 'help' for available commands.");
+        }
     }
 
     /**
@@ -66,6 +91,11 @@ public class MemoryStoreApplication {
      * for the application.
      */
     private static void printHelp() {
-        // Help message printing implementation
+        System.out.println("Memory Store Application");
+        System.out.println("Available commands:");
+        System.out.println("store <key> <value> - Stores a color with the specified key.");
+        System.out.println("retrieve <key> - Retrieves and displays the color associated with the key.");
+        System.out.println("help - Displays this help message.");
+        System.out.println("exit - Exits the application.");
     }
 }
